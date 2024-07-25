@@ -14,11 +14,12 @@ use App\Http\Controllers\UsersController;
 */
 
 Route::get('/', function () {
-    return view('Logins/SignUp');
+    return view('Home');
 });
 
-//SignUp
+//User Controller
 Route::get('/SignUpView', [UsersController::class,'UserSignUpView'])->name('UserSignUpView');
 Route::get('/LoginView', [UsersController::class,'UserLoginView'])->name('UserLoginView');
 Route::post('/signup', [UsersController::class, 'SignUp'])->name('SignUp');
 Route::get('/SignUpSuccess', [UsersController::class,'UserSignUpSuccess'])->name('UserSignUpSuccess');
+Route::get('/UserSession', [UsersController::class,'UserSession'])->name('UserSession');
