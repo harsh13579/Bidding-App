@@ -13,32 +13,36 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid custom-navbar">
-          <img class="logo" src="assets/images/Logo.png" alt="logo">
+          <div class="nav-items">
+            <img class="logo" src="assets/images/Logo.png" alt="logo">
+            <h1>Genix Auctions</h1>
+          </div>
+            
         </div>
     </nav>
     <div class="login-container">
         <div class="form-container">
-            <h1 class="heading font">Sign up</h1>
-            <p class="">New bidders, as soon as you have submitted your information you will be eligible to bid in the auction.</p>
+            <h3 class="heading font">Sign up</h3>
+            <p class="headerparagraph">New bidders, as soon as you have submitted your information you will be eligible to bid in the auction.</p>
             <form method="post" action="/signup" id="signup">
                 @csrf
                 <div class="form-group">
                     <label for="rollno" class="labels font">First Name</label>
-                    <input class="inputs" type="text" name="rollno" id="rollno" placeholder="Roll Number" required>
+                    <input class="inputs" type="text" name="rollno" id="rollno" placeholder="Enter First Name" required>
                     @if($errors->has('rollno'))
                         <span class="text-danger">{{ $errors->first('rollno') }}</span>
                     @endif
                 </div>
                 <div class="form-group">
                     <label for="name" class="labels font">Last Name</label>
-                    <input class="inputs" type="text" name="name" id="name" placeholder="Full Name" required>
+                    <input class="inputs" type="text" name="name" id="name" placeholder="Enter Last Name" required>
                     @if($errors->has('name'))
                         <span class="text-danger">{{ $errors->first('name') }}</span>
                     @endif
                 </div>
                 <div class="form-group" >
-                    <label for="email" class="labels font">E-Mail</label>
-                    <input class="inputs" type="text" name="email" id="email" placeholder="E-Mail" required>
+                    <label for="email" class="labels font">Email Address</label>
+                    <input class="inputs" type="text" name="email" id="email" placeholder="Enter Email Address" required>
                     @if($errors->has('email'))
                         <span class="text-danger">{{ $errors->first('email') }}</span>
                     @endif
@@ -51,18 +55,10 @@
                         <span class="text-danger">{{ $errors->first('password') }}</span>
                     @endif
                 </div>
-                <div class="form-group password-container">
-                    <label for="password" class="labels font">Confirm Password</label>
-                    <input class="inputs" type="password" id="password" name="confirmpass" placeholder="Enter Password Again" required>
-                    <!-- <span class="password-toggle-icon"><i class="fas fa-eye"style="padding-top: 30px"></i></span> -->
-                    @if($errors->has('confirmpass'))
-                        <span class="text-danger">{{ $errors->first('confirmpass') }}</span>
-                    @endif
-                </div>
-                <div>
-                    <input class="checkbox" type="checkbox" id="submit">
-                    <label>Receive Outbid Emails</label>
-                </div>
+                <label class="checkbox-container">Receive outbid emails
+                    <input type="checkbox" id="outbid-checkbox">
+                    <span class="checkmark"></span>
+                </label>
                 <div class="form-group button">
                     <input class="submit-btn" type="submit" id="submit" value="Submit">
                 </div>
