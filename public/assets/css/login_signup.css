@@ -37,7 +37,7 @@
     font-size: 25px;
 }
 .logo {
-    width: 80px;
+    width: 57px;
     height: auto;
 }
 .home-btn, .profile-btn, .logout-btn {
@@ -65,7 +65,7 @@
     align-items: center;
     justify-content: center;
     max-width: 100%;
-    margin-top: 100px;
+    margin-top: 30px;
 }
 .heading {
     color: #000000;
@@ -91,11 +91,15 @@
     box-sizing: border-box;
     width: 550px;
 }
+.nav-text{
+    font-size: 30px;
+}
 .form-group {
     margin-bottom: 10px;
 }
 .labels {
-    display: block;
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 5px;
 }
 .inputs {
@@ -249,7 +253,9 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
-
+.text-below-image{
+    text-align: center;
+}
 .password-toggle-icon i {
     font-size: 18px;
     line-height: 1;
@@ -309,4 +315,22 @@
 }
 .disabled{
     background-color: rgb(224, 224, 224);
+}
+.success-container{
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    justify-content: center;
+    align-items: center;
+}
+.signupsuccessimg{
+    width:900px;
+    height: auto;
+}
+.success_login{
+    padding-top: 30px;
+}
+.forgot-password{
+    text-decoration: none;
+    color:rgba(29, 78, 216, 1);
 }
