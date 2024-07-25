@@ -23,24 +23,10 @@
     </nav>
     <div class="login-container">
         <div class="form-container">
-            <h3 class="heading font">Sign up</h3>
-            <p class="headerparagraph">New bidders, as soon as you have submitted your information you will be eligible to bid in the auction.</p>
-            <form method="post" action="/signup" id="signup">
+            <h3 class="heading font">Login</h3>
+            <p class="headerparagraph">Welcome back. Enter your credentials to access your account</p>
+            <form method="post" action="/login" id="login">
                 @csrf
-                <div class="form-group">
-                    <label for="firstname" class="labels font">First Name</label>
-                    <input class="inputs" type="text" name="firstname" id="firstname" placeholder="Enter First Name" required>
-                    @if($errors->has('firstname'))
-                        <span class="text-danger">{{ $errors->first('firstname') }}</span>
-                    @endif
-                </div>
-                <div class="form-group">
-                    <label for="lastname" class="labels font">Last Name</label>
-                    <input class="inputs" type="text" name="lastname" id="lastname" placeholder="Enter Last Name" required>
-                    @if($errors->has('lastname'))
-                        <span class="text-danger">{{ $errors->first('lastname') }}</span>
-                    @endif
-                </div>
                 <div class="form-group" >
                     <label for="email" class="labels font">Email Address</label>
                     <input class="inputs" type="text" name="email" id="email" placeholder="Enter Email Address" required>
@@ -49,25 +35,27 @@
                     @endif
                 </div>
                 <div class="form-group password-container">
-                    <label for="password" class="labels font">Password</label>
+                    <label for="password" class="labels font">Password
+                        <a href="/forgot-password" class="forgot-password">Forgot Password</a>
+                    </label>
                     <input class="inputs" type="password" id="password" name="password" placeholder="Enter Password" required>
                     <span class="password-toggle-icon"><i class="fas fa-eye"style="padding-top: 30px"></i></span>
                     @if($errors->has('password'))
                         <span class="text-danger">{{ $errors->first('password') }}</span>
                     @endif
                 </div>
-                <label class="checkbox-container">Receive outbid emails
+                <label class="checkbox-container">Keep me signed in
                     <input type="checkbox" name="email_subs" id="outbid-checkbox" value="1">
                     <span class="checkmark"></span>
                 </label>
                 <div class="form-group button">
                     <input class="submit-btn" type="submit" id="submit" value="Submit">
                 </div>
-                <div class="text-below-image">Want to know more? <a class="font" href="#" style="text-decoration: none">Auction Rules</a></div>
+                <div class="text-below-image">Don't have an account? <a class="font" href="{{route('UserSignUpView')}}" style="text-decoration: none">Sign up here</a></div>
             </form>
         </div>
         <div class="image-container">
-            <img src="assets/images/Signup.png" alt="Sign Up Image" class="image" height="600px" width="800px">
+            <img src="assets/images/Login.png" alt="Sign Up Image" class="image" height="600px" width="800px">
         </div>
     </div>
     <script>
