@@ -63,20 +63,22 @@ class UsersController extends Controller
         else
         {
             $email = $request->input('email');
-            $req_email = DB::table('users')->where('email', $email)->first();
-            if(DB::table('users')->where('email',$user1)->exists())
+            $password= $request->input('password');
+            $pass = DB::table('users')->where('email', $email)->value('password');
+            if(HASH::check($password,$pass))
             {
-                $password= $request->input('password');
-                $user = DB::table('users')->where('email', $email)->value('password');
-                if(HASH::check($password,$user))
-                {
-                    Session::put('user',$user1);
-                    return redirect()->route('StudentDashboard');
-                }
-                    
-                else
-                    return back()->withInput()->withErrors(['password' => 'Wrong Password!']);
+                Session::put('user',$email);
+                return redirect('/');
             }
+            else
+                return back()->withInput()->withErrors(['password' => 'Wrong Password!']);
         }
+    }
+    public function UserSession()
+    {
+        $user = Session::get('user');
+        if($user)
+            return $user->firstname;
+        return "Guest";
     }
 }

@@ -1,0 +1,57 @@
+.user{
+    padding-top: 50px;
+}
+.products{
+    margin: 80px 100px;
+}
+.product{
+    display: inline-block;
+    height: 479px;
+    width: 297px;
+    background-color: #fff;
+    margin: 10px;
+    text-align: center;
+    box-shadow: 0.5px 0.5px 5px gray;
+    border: 1px black;
+}
+.prod_image{
+    text-align: center;
+    padding: 12px 12px 5px 12px;
+}
+.description{
+    padding: 0px 18px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.live{
+    text-align: left;
+    background: rgba(33, 166, 122, 1);
+    color: white;
+    width: 90px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+
+}
+.prod_name{
+    text-align: left;
+}
+.bid{
+    display: flex;
+    justify-content: space-between;
+}
+.aucend{
+    text-align: left;
+}
+.submit{
+    height: 42px;
+    width: 265px;
+    margin: 12px;
+    background: linear-gradient(79.69deg, #DB2721 -0.64%, #5AD7FE 107.84%);
+    color: white;
+}
