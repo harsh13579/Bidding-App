@@ -30,7 +30,7 @@
     </div>
     <script>
         document.getElementById('login').addEventListener('click', function() {
-            window.location.href ='{{route('UserLoginView')}}';
+            window.location.href ='{{route('LoginView')}}';
         });
     </script>
 </body>

@@ -18,8 +18,9 @@ Route::get('/', function () {
 });
 
 //User Controller
-Route::get('/SignUpView', [UsersController::class,'UserSignUpView'])->name('UserSignUpView');
-Route::get('/LoginView', [UsersController::class,'UserLoginView'])->name('UserLoginView');
+Route::get('/SignUpView', [UsersController::class,'UserSignUpView'])->name('SignUpView');
+Route::get('/LoginView', [UsersController::class,'UserLoginView'])->name('LoginView');
 Route::post('/signup', [UsersController::class, 'SignUp'])->name('SignUp');
-Route::get('/SignUpSuccess', [UsersController::class,'UserSignUpSuccess'])->name('UserSignUpSuccess');
+Route::post('/login', [UsersController::class, 'Login'])->name('Login');
+Route::get('/SignUpSuccess', [UsersController::class,'UserSignUpSuccess'])->name('SignUpSuccess');
 Route::get('/UserSession', [UsersController::class,'UserSession'])->name('UserSession');

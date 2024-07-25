@@ -68,6 +68,7 @@ class UsersController extends Controller
             if(HASH::check($password,$pass))
             {
                 Session::put('user',$email);
+                // echo "Logged In\n";
                 return redirect('/');
             }
             else

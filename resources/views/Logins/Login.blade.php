@@ -51,7 +51,7 @@
                 <div class="form-group button">
                     <input class="submit-btn" type="submit" id="submit" value="Submit">
                 </div>
-                <div class="text-below-image">Don't have an account? <a class="font" href="{{route('UserSignUpView')}}" style="text-decoration: none">Sign up here</a></div>
+                <div class="text-below-image">Don't have an account? <a class="font" href="{{route('SignUpView')}}" style="text-decoration: none">Sign up here</a></div>
             </form>
         </div>
         <div class="image-container">
