@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\users;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Storage;
 use Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -23,6 +24,10 @@ class UsersController extends Controller
     public function UserLoginView()
     {
         return view('Logins/Login');
+    }
+    public function Auctions()
+    {
+        return view('Auctions');
     }
     public function SignUp(Request $request)
     {
@@ -64,12 +69,12 @@ class UsersController extends Controller
         {
             $email = $request->input('email');
             $password= $request->input('password');
+            $user1 = DB::table('users')->where('email', $email)->first();
             $pass = DB::table('users')->where('email', $email)->value('password');
             if(HASH::check($password,$pass))
             {
-                Session::put('user',$email);
-                // echo "Logged In\n";
-                return redirect('/');
+                Session::put('user',$user1);
+                return redirect('Auctions');
             }
             else
                 return back()->withInput()->withErrors(['password' => 'Wrong Password!']);
@@ -81,5 +86,35 @@ class UsersController extends Controller
         if($user)
             return $user->firstname;
         return "Guest";
+    }
+
+    public function UserProfile()
+    {
+        $user = Session::get('user');
+        if($user)
+        {
+            $stmt="select * from users where email='". $user->email ."';"; 
+            $users = DB::select($stmt);
+            return view('Profile',['users'=>$users]);
+        }
+        else
+            return view('/');
+    }
+    public function ChangeProfilePic(Request $request)
+    {
+        $user = Session::get('user');
+        $email=$user->email;
+        if ($request->hasFile('profile_pic')) {
+            $image = $request->file('profile_pic');
+            $filename = $email . '.' . $image->getClientOriginalExtension();
+            $path = 'Profile_Pics/' . $filename;
+            Storage::disk('public')->putFileAs('Profile_Pics', $image, $filename);
+            DB::table('users')
+                ->where('email', $email)
+                ->update(['profile_pic' => $filename]);
+            return redirect()->back()->with('success', 'Profile picture updated successfully!');
+        }
+        return redirect()->back()->with('error', 'No profile picture uploaded.');
+        
     }
 }

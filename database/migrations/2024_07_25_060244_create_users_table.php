@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('profile_pic')->default('default_profile.png');
             $table->boolean('email_subs')->default(false);
             $table->timestamps();
         });

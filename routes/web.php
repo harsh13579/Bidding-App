@@ -14,7 +14,7 @@ use App\Http\Controllers\UsersController;
 */
 
 Route::get('/', function () {
-    return view('Home');
+    return view('HomePage');
 });
 
 //User Controller
@@ -24,3 +24,6 @@ Route::post('/signup', [UsersController::class, 'SignUp'])->name('SignUp');
 Route::post('/login', [UsersController::class, 'Login'])->name('Login');
 Route::get('/SignUpSuccess', [UsersController::class,'UserSignUpSuccess'])->name('SignUpSuccess');
 Route::get('/UserSession', [UsersController::class,'UserSession'])->name('UserSession');
+Route::get('/Auctions', [UsersController::class,'Auctions'])->name('Auctions');
+Route::get('/UserProfile', [UsersController::class,'userProfile'])->name('UserProfile');
+Route::post('/change-profile_pic', [UsersController::class, 'ChangeProfilePic'])->name('change-profile_pic');
