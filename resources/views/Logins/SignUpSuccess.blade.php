@@ -16,7 +16,7 @@
         <div class="container-fluid custom-navbar">
           <div class="nav-items">
             <img class="logo" src="assets/images/Logo.png" alt="logo">
-            <h1 class="nav-text">Genix Auctions</h1>
+            <h1 class="nav-text font">Genix Auctions</h1>
           </div>
             
         </div>
@@ -28,10 +28,6 @@
             <button class="form-group button submit-btn" id="login" style="width:200px;">Login now</button>
         </div>
     </div>
-    <script>
-        document.getElementById('login').addEventListener('click', function() {
-            window.location.href ='{{route('LoginView')}}';
-        });
-    </script>
+    <script src="assets/js/signup_login.js"></script>
 </body>
 </html>

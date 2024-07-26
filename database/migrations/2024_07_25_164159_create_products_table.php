@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('minbid');
             $table->integer('curbid');
-            $table->date('enddate');
+            $table->dateTime('enddate');
         });
     }
 
