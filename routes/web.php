@@ -1,7 +1,9 @@
 <?php
 
+use DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +16,9 @@ use App\Http\Controllers\UsersController;
 */
 
 Route::get('/', function () {
-    return view('HomePage');
+    $prod = "select * from products;";
+    $products = DB::select($prod);
+    return view('HomePage',['products' => $products]);
 });
 
 //User Controller
@@ -27,3 +31,8 @@ Route::get('/UserSession', [UsersController::class,'UserSession'])->name('UserSe
 Route::get('/Auctions', [UsersController::class,'Auctions'])->name('Auctions');
 Route::get('/UserProfile', [UsersController::class,'userProfile'])->name('UserProfile');
 Route::post('/change-profile_pic', [UsersController::class, 'ChangeProfilePic'])->name('change-profile_pic');
+Route::get('/MyAuctions', [UsersController::class, 'MyAuctions'])->name('MyAuctions');
+Route::get('/Logout', [UsersController::class, 'Logout'])->name('Logout');
+
+// Product COntroller
+Route::post('/AddProduct', [ProductController::class, 'AddProduct'])->name('AddProduct');

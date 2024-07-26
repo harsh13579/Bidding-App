@@ -29,6 +29,15 @@ class UsersController extends Controller
     {
         return view('Auctions');
     }
+    public function MyAuctions()
+    {
+        $user = Session::get('user');
+        $users = "select * from users where email='". $user->email ."';"; 
+        $stmt="select * from products where user='". $user->email ."';"; 
+        $products = DB::select($stmt);
+        $users = DB::select($users);
+        return view('Logins.MyAuctions', ['products' => $products, 'user'=>$users]);
+    }
     public function SignUp(Request $request)
     {
         $rules = [
@@ -73,8 +82,10 @@ class UsersController extends Controller
             $pass = DB::table('users')->where('email', $email)->value('password');
             if(HASH::check($password,$pass))
             {
+                $prod = "select * from products;";
+                $products = DB::select($prod);
                 Session::put('user',$user1);
-                return redirect('Auctions');
+                return view('Auctions', ['products' => $products]);
             }
             else
                 return back()->withInput()->withErrors(['password' => 'Wrong Password!']);
@@ -100,6 +111,11 @@ class UsersController extends Controller
         else
             return view('/');
     }
+    public function Logout()
+    {
+        Session::forget('user');
+        return redirect('/');
+    }
     public function ChangeProfilePic(Request $request)
     {
         $user = Session::get('user');
@@ -108,6 +124,8 @@ class UsersController extends Controller
             $image = $request->file('profile_pic');
             $filename = $email . '.' . $image->getClientOriginalExtension();
             $path = 'Profile_Pics/' . $filename;
+            $user->profile_pic = $filename;
+            Session::put('user',$user);
             Storage::disk('public')->putFileAs('Profile_Pics', $image, $filename);
             DB::table('users')
                 ->where('email', $email)
@@ -115,6 +133,5 @@ class UsersController extends Controller
             return redirect()->back()->with('success', 'Profile picture updated successfully!');
         }
         return redirect()->back()->with('error', 'No profile picture uploaded.');
-        
     }
 }

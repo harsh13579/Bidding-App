@@ -49,7 +49,7 @@
                     </li>
                     <li class="nav-item dropdown font">
                         <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="assets/images/icon.png" class="icon" alt="icon"> Language
+                            <img src="assets/images/icon.png" class="icon1" alt="icon"> Language
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                             <li><a class="dropdown-item" href="#">English</a></li>
@@ -76,25 +76,27 @@
         <div class="heading_">
             <h2 class="font" style="font-weight:600;">Explore <span class="heading-color">Auctions</span></h2>
         </div>
+        @foreach($products as $prod)
         <div class="product">
             <div class="prod_image">
-                <img src="storage/Products/Image.png" alt="prod">
+                <img src="storage/Products_Pics/{{$prod->photo}}" alt="prod">
             </div>
             <div class="description">
                 <div class="live">Live Auction</div>
-                <div class="prod_name">Sony Black Headphones</div>
+                <div class="prod_name">{{$prod->prod_name}}</div>
                 <div class="bid">
                     <div class="bidtext">Minimum Bid</div>
-                    <div class="bidval">$100</div>
+                    <div class="bidval">${{$prod->minbid}}</div>
                 </div>
                 <div class="bid">
                     <div class="bidtext">Current Bid</div>
-                    <div class="bidval">$100</div>
+                    <div class="bidval">${{$prod->curbid}}</div>
                 </div>
-                    <div class="aucend">Ends in : 12:10:00</div>
+                    <div class="aucend">Ends at : {{$prod->enddate}}</div>
             </div>
-            <button class="submit" id="bid_without_login">Bid Now ></button>
+            <button class="submit">Bid Now ></button>
         </div>
+        @endforeach
     </div>
 
     <script src="assets/js/signup_login.js"></script>

@@ -76,13 +76,13 @@
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="#">My Bids</a></li>
                             <li><a class="dropdown-item" href="#">Credit Cards</a></li>
-                            <li><a class="dropdown-item" href="#">My Auctions</a></li>
+                            <li><a class="dropdown-item" href="MyAuctions">My Auctions</a></li>
                             <li><a class="dropdown-item" href="#">Invite Colleagues</a></li>
                             <li><a class="dropdown-item" href="#">Notifications</a></li>
                             <li><a class="dropdown-item" href="#">Community</a></li>
                             <li><a class="dropdown-item" href="#">Support</a></li>
                             <li><a class="dropdown-item" href="#">API</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" href="Logout">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
