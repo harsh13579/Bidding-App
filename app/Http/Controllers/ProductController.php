@@ -45,8 +45,7 @@ class ProductController extends Controller
             ]);
             $bidTableName = 'bid_' . $this->sanitizeTableName($request->prod_name) . '_' . $productId;
             $reviewTableName = 'review_' . $this->sanitizeTableName($request->prod_name) . '_' . $productId;
-    
-            // Create bid table
+
             if (!Schema::hasTable($bidTableName)) {
                 Schema::create($bidTableName, function ($table) {
                     $table->increments('id');
@@ -55,8 +54,7 @@ class ProductController extends Controller
                     $table->timestamps(); 
                 });
             }
-    
-            // Create review table
+
             if (!Schema::hasTable($reviewTableName)) {
                 Schema::create($reviewTableName, function ($table) {
                     $table->increments('id');

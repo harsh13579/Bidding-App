@@ -13,7 +13,7 @@ body{
     padding-top: 100px;
 }
 .products{
-    margin: 1% 10% 1% 10%;
+    margin: 1% 9% 1% 9%;
 }
 .product{
     display: inline-block;
@@ -24,6 +24,10 @@ body{
     text-align: center;
     box-shadow: 0.5px 0.5px 5px gray;
     border: 1px black;
+    transition: transform .2s;
+}
+.product:hover{
+    transform: scale(1.02);
 }
 .prod_image{
     text-align: center;
@@ -115,3 +119,25 @@ body{
     display: flex;
     align-items: center;
  }
+ .prod_name{
+    font-family: "Manrope", sans-serif;
+    font-weight: 600;
+ }
+ .bid{
+    font-family: "Manrope", sans-serif;
+    align-items: center;
+ }
+ .aucend{
+    font-family: "Manrope", sans-serif;
+ }
+ .bidval{
+    font-weight: bold;
+    font-size: 20px;
+ }
+ .text-safe{
+    margin: 10%;
+    color: rgb(76, 220, 37);
+    font-family: "Manrope", sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+}

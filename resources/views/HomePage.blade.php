@@ -29,7 +29,7 @@
                             Auctions
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="auctionsDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="Auctions">Auctions</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
@@ -77,28 +77,70 @@
             <h2 class="font" style="font-weight:600;">Explore <span class="heading-color">Auctions</span></h2>
         </div>
         @foreach($products as $prod)
-        <div class="product">
-            <div class="prod_image">
-                <img src="storage/Products_Pics/{{$prod->photo}}" alt="prod">
-            </div>
-            <div class="description">
-                <div class="live">Live Auction</div>
-                <div class="prod_name">{{$prod->prod_name}}</div>
-                <div class="bid">
-                    <div class="bidtext">Minimum Bid</div>
-                    <div class="bidval">${{$prod->minbid}}</div>
+            <div class="product" id="product-{{ $prod->id }}">
+                <div class="prod_image">
+                    <img src="storage/Products_Pics/{{$prod->photo}}" alt="prod">
                 </div>
-                <div class="bid">
-                    <div class="bidtext">Current Bid</div>
-                    <div class="bidval">${{$prod->curbid}}</div>
+                <div class="description">
+                    <div class="live" id="status-{{ $prod->id }}">Live Auction</div>
+                    <div class="prod_name">{{$prod->prod_name}}</div>
+                    <div class="bid">
+                        <div class="bidtext">Minimum Bid</div>
+                        <div class="bidval">${{$prod->minbid}}</div>
+                    </div>
+                    <div class="bid">
+                        <div class="bidtext">Current Bid</div>
+                        <div class="bidval">${{$prod->curbid}}</div>
+                    </div>
+                    <div class="aucend">
+                        Ends in: <span id="countdown-{{ $prod->id }}"></span>
+                    </div>
                 </div>
-                    <div class="aucend">Ends at : {{$prod->enddate}}</div>
+                <button class="submit" id="submit-{{ $prod->id }}">Bid Now ></button>
             </div>
-            <button class="submit">Bid Now ></button>
-        </div>
         @endforeach
     </div>
+    <script>
+        @foreach($products as $prod)
+        (function() {
+            var endDate = new Date("{{ $prod->enddate }}").getTime();
+            var countdownId = "countdown-{{ $prod->id }}";
+            var statusId = "status-{{ $prod->id }}";
+            var productId = "product-{{ $prod->id }}";
+            var submitButtonId = "submit-{{ $prod->id }}";
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = endDate - now;
 
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(countdownId).innerHTML = days + "d " + hours + "h " + minutes + "m "+ seconds + "s";
+                
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById(countdownId).innerHTML = "EXPIRED";
+                    var statusDiv = document.getElementById(statusId);
+                    statusDiv.innerHTML = "Sold";
+                    statusDiv.style.backgroundColor = "red";
+
+                    var productElement = document.getElementById(productId);
+                    var parent = productElement.parentNode;
+                    productElement.style.background="#f2f2f0";
+                    parent.removeChild(productElement);
+                    parent.appendChild(productElement);
+
+                    var submitButton = document.getElementById(submitButtonId);
+                    submitButton.disabled = true;
+                    submitButton.style.background = "gray";
+                    submitButton.style.cursor = "not-allowed";
+                }
+            }, 1000);
+        })();
+        @endforeach
+    </script>
     <script src="assets/js/signup_login.js"></script>
 </body>
 </html>
