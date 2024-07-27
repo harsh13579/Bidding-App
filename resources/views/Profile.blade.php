@@ -30,7 +30,7 @@
                             Auctions
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="auctionsDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="Auctions">Auctions</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>

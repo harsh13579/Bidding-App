@@ -1,0 +1,119 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 4px;
+    width: 500px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+#bidForm{
+    padding-top:5px;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h2 {
+    margin: 0;
+    font-size: 22px;
+    display: inline-block;
+    border-bottom: 1px #ccc solid;
+    padding-bottom: 10px;
+}
+
+.product-name {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 17px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-family: "Manrope";
+}
+
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: none;
+}
+
+.form-control {
+    display: flex;
+    align-items: center;
+}
+
+.form-control button {
+    background-color: #eee;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.form-control button:hover {
+    background-color: #ddd;
+}
+
+.bid-details {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.bid-details div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.bid-details span {
+    font-weight: bold;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}

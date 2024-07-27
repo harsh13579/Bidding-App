@@ -16,42 +16,6 @@
     margin: 0;
     box-sizing: border-box;
 }
-.custom-navbar {
-    background-color: #1625AD;
-    padding: 5px 15px;
-    margin: 0;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-    position: fixed;
-}
-.custom-nav-items {
-    margin-left: auto;
-    font-size: 25px;
-}
-.logo {
-    width: 80px;
-    height: auto;
-}
-.home-btn, .profile-btn, .logout-btn {
-    color: white;
-    cursor: pointer;
-}
-.home-btn:hover, .profile-btn:hover, .logout-btn:hover {
-    color: white;
-}
-.logout-btn {
-    background-color: rgb(210, 37, 37);
-    padding: 5px;
-    margin-top: 12px;
-    border-radius: 10px;
-    font-size: 16px;
-    transition: 0.3s;
-}
-.logout-btn:hover {
-    background-color: rgb(231, 18, 18);
-}
 .profile-container {
     display: flex;
     justify-content: center;
@@ -150,14 +114,14 @@
     justify-content: center;
 }
 .submit-btn {
-    background-color: #1625AD;
+    background-color: rgba(29, 78, 216, 1);
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
 }
 .submit-btn:hover {
-    background-color: #172add;
+    background-color: #1325c8;
 }
 .yes-button {
     padding: 5px 20px;

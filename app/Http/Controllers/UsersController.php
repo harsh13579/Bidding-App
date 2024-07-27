@@ -27,7 +27,9 @@ class UsersController extends Controller
     }
     public function Auctions()
     {
-        return view('Auctions');
+        $prod = "select * from products;";
+        $products = DB::select($prod);
+        return view('Auctions', ['products' => $products]);
     }
     public function MyAuctions()
     {
@@ -72,7 +74,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) 
         {
-            return redirect('UserLoginView')->withInput()->withErrors($validator);
+            return redirect('LoginView')->withInput()->withErrors($validator);
         }
         else
         {
@@ -85,7 +87,7 @@ class UsersController extends Controller
                 $prod = "select * from products;";
                 $products = DB::select($prod);
                 Session::put('user',$user1);
-                return view('Auctions', ['products' => $products]);
+                return redirect('Auctions');
             }
             else
                 return back()->withInput()->withErrors(['password' => 'Wrong Password!']);

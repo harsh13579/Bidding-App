@@ -11,9 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <style>
-        /* Custom CSS for modal styling */
         .modal-header {
             background-color: #f7f7f7;
         }
@@ -35,6 +33,7 @@
             margin-top: 20px;
             text-align: center;
         }
+        
     </style>
 </head>
 
@@ -55,7 +54,7 @@
                             Auctions
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="auctionsDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="Auctions">Auctions</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
@@ -117,25 +116,22 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container mt-4">
-        <!-- Add Product Button -->
         <div class="add-product-btn">
             <button id="addProductBtn" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#productModal" style="margin-top:100px">Add Product</button>
         </div>
     </div>
-    @if(Session::get('success'))
+        @if(Session::get('success'))
         <span class="text-safe">{{ Session::get('success') }}</span>
-    @endif
-        <!-- Products Section -->
+        @endif
         <div class="products">
             @foreach($products as $prod)
-            <div class="product">
+            <div class="product" id="product-{{ $prod->id }}">
                 <div class="prod_image">
                     <img src="storage/Products_Pics/{{$prod->photo}}" alt="prod">
                 </div>
                 <div class="description">
-                    <div class="live">Live Auction</div>
+                    <div class="live" id="status-{{ $prod->id }}">Live Auction</div>
                     <div class="prod_name">{{$prod->prod_name}}</div>
                     <div class="bid">
                         <div class="bidtext">Minimum Bid</div>
@@ -145,14 +141,14 @@
                         <div class="bidtext">Current Bid</div>
                         <div class="bidval">${{$prod->curbid}}</div>
                     </div>
-                        <div class="aucend">Ends at : {{$prod->enddate}}</div>
+                    <div class="aucend">
+                        Ends in: <span id="countdown-{{ $prod->id }}"></span>
+                    </div>
                 </div>
-                <button class="submit">Bid Now ></button>
+                <button class="submit" id="submit-{{ $prod->id }}">Bid Now ></button>
             </div>
             @endforeach
-        </div>
-    
-
+        </div> 
     <!-- Add Product Popup Modal -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -184,23 +180,52 @@
                             <label for="endDate" class="form-label">End Date</label>
                             <input type="datetime-local" class="form-control" id="endDate" name="enddate" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" >Submit</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
-        // You can handle form submissions here
-        // document.getElementById('productForm').addEventListener('submit', function(event) {
-        //     event.preventDefault();
-        //     // Add your form submission logic here
-        //     alert('Product added successfully!');
-        //     // Hide the modal after submission
-        //     var modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
-        //     modal.hide();
-        // });
+        @foreach($products as $prod)
+        (function() {
+            var endDate = new Date("{{ $prod->enddate }}").getTime();
+            var countdownId = "countdown-{{ $prod->id }}";
+            var statusId = "status-{{ $prod->id }}";
+            var productId = "product-{{ $prod->id }}";
+            var submitButtonId = "submit-{{ $prod->id }}";
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = endDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(countdownId).innerHTML = days + "d " + hours + "h " + minutes + "m "+ seconds + "s";
+                
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById(countdownId).innerHTML = "EXPIRED";
+                    var statusDiv = document.getElementById(statusId);
+                    statusDiv.innerHTML = "Sold";
+                    statusDiv.style.backgroundColor = "red";
+
+                    var productElement = document.getElementById(productId);
+                    var parent = productElement.parentNode;
+                    productElement.style.background="#f2f2f0";
+                    parent.removeChild(productElement);
+                    parent.appendChild(productElement);
+
+                    var submitButton = document.getElementById(submitButtonId);
+                    submitButton.disabled = true;
+                    submitButton.style.background = "gray";
+                    submitButton.style.cursor = "not-allowed";
+                }
+            }, 1000);
+        })();
+        @endforeach
     </script>
 </body>
 
