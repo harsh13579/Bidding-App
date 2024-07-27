@@ -35,3 +35,4 @@ Route::get('/Logout', [UsersController::class, 'Logout'])->name('Logout');
 
 // Product COntroller
 Route::post('/AddProduct', [ProductController::class, 'AddProduct'])->name('AddProduct');
+Route::post('/Bid', [ProductController::class, 'Bid'])->name('Bid');

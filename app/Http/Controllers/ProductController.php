@@ -71,4 +71,36 @@ class ProductController extends Controller
         return redirect()->back()->with('error', 'Error Occured, please try again!');
        
     }
+    public function Bid(Request $request)
+    {
+        $request->validate([
+            'straightBid' => 'required|numeric|min:1',
+            'maxBid' => 'required|numeric|min:1',
+            'productId' => 'required|exists:products,id',
+        ]);
+        $user = Session::get('user');
+        if(!$user) 
+            return redirect('LoginView');
+        $product = DB::table('products')->where('id', $request->productId)->first();
+        if(!$product) 
+            return redirect()->back()->withErrors(['error' => 'Product not found.']);
+
+        $maxBid = max($request->straightBid, $request->maxBid);
+        if($maxBid <= $product->curbid) 
+        {
+            return redirect()->route('Auctions')->with('error', 'Invalid bid. Your bid must be higher than the current bid.');
+        }
+        DB::table('products')->where('id', $request->productId)->update(['curbid' => $maxBid]);
+
+        $bidTableName = 'bid_' . $this->sanitizeTableName($product->prod_name) . '_' . $request->productId;
+            
+        DB::table($bidTableName)->insert([
+            'amount' => $maxBid, 
+            'email' => $user->email,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        return redirect()->route('Auctions')->with('success', 'Your bid was successfully placed!');
+    }
+
 }
