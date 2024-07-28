@@ -89,7 +89,8 @@ h2 {
 
 .bid-details {
     margin-top: 15px;
-    font-size: 14px;
+    font-family: "Manrope";
+    font-size: 15px;
 }
 
 .bid-details div {
@@ -97,23 +98,31 @@ h2 {
     justify-content: space-between;
     margin-bottom: 10px;
 }
-
+#minBidValue{
+    font-size: 18px;
+}
+#curBidValue{
+    font-size: 18px;
+}
 .bid-details span {
     font-weight: bold;
 }
 
 .submit-btn {
     display: block;
-    width: 100%;
+    width: 40%;
     padding: 10px;
-    background-color: #4CAF50;
+    background: linear-gradient(79.69deg, #1D4ED8 -0.64%, #5AD7FE 107.84%);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-family: "Manrope";
     font-size: 16px;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .submit-btn:hover {
-    background-color: #45a049;
+    background: linear-gradient(79.69deg, #0A3AD2 -0.64%, #3AC0FE 107.84%);
+    transform: scale(1.05); 
 }

@@ -111,7 +111,7 @@
             </div>
             <div class="description">
                 <div class="live" id="status-{{ $prod->id }}">Live Auction</div>
-                <div class="prod_name">{{ $prod->prod_name }}</div>
+                <a href="{{ route('ProductDetails', ['id' => $prod->id]) }}">{{ $prod->prod_name }}</a>
                 <div class="bid">
                     <div class="bidtext">Minimum Bid</div>
                     <div class="bidval">${{ $prod->minbid }}</div>
@@ -124,7 +124,12 @@
                     Ends in: <span id="countdown-{{ $prod->id }}"></span>
                 </div>
             </div>
-            <button class="submit" id="{{$prod->id}}" data-product-id="{{ $prod->id }}" data-prod-name="{{ $prod->prod_name }}" data-min-bid="{{ $prod->minbid }}" data-cur-bid="{{ $prod->curbid }}" data-end-date="{{ $prod->enddate }}">Bid Now ></button>
+            @if($user->email!=$prod->user)
+                <button class="submit" id="{{$prod->id}}" data-product-id="{{ $prod->id }}" data-prod-name="{{ $prod->prod_name }}" data-min-bid="{{ $prod->minbid }}" data-cur-bid="{{ $prod->curbid }}" data-end-date="{{ $prod->enddate }}">Bid Now ></button>
+            @else
+                <button class="submit" id="{{$prod->id}}" disabled style="background:gray;">Bid Now ></button>
+            @endif
+
         </div>
         @endforeach
     </div>
@@ -150,20 +155,22 @@
 
                 <div class="bid-details">
                     <div>
-                        <span>Minimum Bid:</span>
+                        <span style="font-weight:400;">Minimum Bid:</span>
                         <span id="minBidValue"></span>
                     </div>
                     <div>
-                        <span>Current Bid:</span>
+                        <span style="font-weight:400;">Current Bid:</span>
                         <span id="curBidValue"></span>
                     </div>
                     <div>
-                        <span>Ends in:</span>
+                        <span style="font-weight:400;">Ends in:</span>
                         <span id="endTime"></span>
                     </div>
                 </div>
-
-                <button type="submit" class="submit-btn">Submit</button>
+                <div class="sub_but">
+                    <button type="submit" class="submit-btn">Submit ></button>
+                </div>
+                
             </form>
         </div>
     </div>
@@ -186,7 +193,7 @@
                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 document.getElementById(countdownId).innerHTML = days + "d " + hours + "h " + minutes + "m "+ seconds + "s";
-                
+               
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById(countdownId).innerHTML = "EXPIRED";
@@ -203,6 +210,7 @@
                     var submitButton = document.getElementById(submitButtonId);
                     submitButton.disabled = true;
                     submitButton.style.background = "gray";
+                    submitButton.innerHTML = "Sold";
                     submitButton.style.cursor = "not-allowed";
                 }
             }, 1000);
@@ -212,15 +220,6 @@
     <script>
         fetch('/UserSession').then(response => response.text()).then(data => {
             document.querySelector('.user').innerHTML = '<span class="welcome font">Welcome <span class="username">' + data  + '!</span></span>';
-        });
-        let prod = document.getElementById('')
-    </script>
-    <script>
-        document.querySelectorAll('.submit').forEach(button => {
-            button.addEventListener('click', () => {
-                let buttonId = button.id;
-                console.log(buttonId); 
-            });
         });
     </script>
 </body>

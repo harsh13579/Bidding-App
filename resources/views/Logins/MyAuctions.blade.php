@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .modal-header {
+       .modal-header {
             background-color: #f7f7f7;
         }
 
@@ -33,7 +33,16 @@
             margin-top: 20px;
             text-align: center;
         }
-        
+
+        .delete-icon {
+            cursor: pointer;
+            color: red;
+            font-size: 1.5rem;
+        }
+
+        .delete-icon:hover {
+            color: darkred;
+        }
     </style>
 </head>
 
@@ -129,6 +138,7 @@
             <div class="product" id="product-{{ $prod->id }}">
                 <div class="prod_image">
                     <img src="storage/Products_Pics/{{$prod->photo}}" alt="prod">
+                    <i class="fas fa-trash-alt delete-icon" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $prod->id }}"></i>
                 </div>
                 <div class="description">
                     <div class="live" id="status-{{ $prod->id }}">Live Auction</div>
@@ -145,7 +155,28 @@
                         Ends in: <span id="countdown-{{ $prod->id }}"></span>
                     </div>
                 </div>
-                <button class="submit" id="submit-{{ $prod->id }}">Bid Now ></button>
+            </div>
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteModal-{{ $prod->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $prod->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel-{{ $prod->id }}">Delete Confirmation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this product?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <form action="/DeleteProduct/{{ $prod->id }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             @endforeach
         </div> 

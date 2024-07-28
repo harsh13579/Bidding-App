@@ -7,7 +7,7 @@ document.querySelectorAll('.submit').forEach(button => {
         const minBid = this.getAttribute('data-min-bid');
         const curBid = this.getAttribute('data-cur-bid');
         const endDate = this.getAttribute('data-end-date');
-
+        
         // Populate modal fields with product data
         document.querySelector('.product-name').textContent = `${prodName}`;
         document.querySelector('#productId').value = productId;

@@ -27,7 +27,7 @@ class UsersController extends Controller
     }
     public function Auctions()
     {
-        $prod = "select * from products;";
+        $prod = "select * from products order by enddate;";
         $products = DB::select($prod);
         return view('Auctions', ['products' => $products]);
     }
