@@ -42,6 +42,14 @@ The **Bidding App** is a full-stack web application developed using the Laravel 
   - A dynamic home page displaying a list of auction items with their current highest bids.
   - Detailed auction item pages showing bid history and providing bidding forms.
   - A profile page allowing users to manage personal information and view their auction activities.
+- **Forgot Password**
+  - Implemented forgot password functionality to assist users when they're unable to login to their accounts.
+  - Password reset link will be sent to the user's registered email from where the user will be able to change their password.
+ 
+- **Outbid Email**
+  - The user who has bid on a product will receive an email if someone bids more than them
+  - This functionality allows the users to check their bid status
+  - This functionality will be active only if the user subscribed to receive the outbid emails while signing up
 
 ---
 
