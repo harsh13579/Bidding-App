@@ -39,3 +39,8 @@ Route::post('/Bid', [ProductController::class, 'Bid'])->name('Bid');
 Route::get('/Product/{id}', [ProductController::class, 'ProductDetails'])->name('ProductDetails');
 Route::post('/DeleteProduct/{id}', [ProductController::class, 'DeleteProduct'])->name('Delete Product');
 Route::post('/AddReview', [ProductController::class, 'AddReview'])->name('AddReview');
+
+Route::get('reset_pass_user', [ProductController::class, 'showForgetPasswordForm'])->name('reset_pass_user');
+Route::post('user-forget-password', [ProductController::class, 'submitForgetPasswordForm'])->name('user-forget.password.post'); 
+Route::get('user-reset.password/{token}', [ProductController::class, 'showResetPasswordForm'])->name('user-reset.password.get');
+Route::post('user-reset.password', [ProductController::class, 'submitResetPasswordForm'])->name('user-reset.password.post');
