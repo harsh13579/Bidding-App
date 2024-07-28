@@ -1,0 +1,88 @@
+.main-container{
+    margin: 9% 1% 9% 1%;
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+}
+.review{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap:20px
+}
+.bids{
+    width: 15%;
+}
+.form-container {
+    border: 1px solid #ccc;
+    width: 70%;
+    padding: 20px;
+    margin: 20px;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.form-group.button {
+    display: flex;
+    justify-content: center;
+}
+.submit-btn {
+    background-color: rgba(29, 78, 216, 1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #1325c8;
+}
+.inputs {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 80%;
+    background-color: #e3f1fc;
+}
+.scrollable {
+    max-height: 300px; 
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc; 
+}
+
+.scrollable .bid {
+    margin-bottom: 10px;
+}
+.star-rating {
+    display: flex;
+    direction: row;
+}
+
+.star {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star.selected,
+.star.hovered {
+    color: gold;
+}
+.review-section{
+    display: flex;
+    flex-direction: row;
+    gap:15px;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+}
+.review-main{
+    display: flex;
+    flex-direction: column;
+}
+.date-of-review{
+    font-family: "Manrope";
+    font-weight: 300;
+}
+.cus-btn{
+    padding-bottom: 20px;
+}

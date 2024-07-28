@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    @php
+        $user = session('user');
+    @endphp
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container-fluid custom-container">
             <div class="nav-items">
@@ -29,7 +32,11 @@
                             Auctions
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="auctionsDropdown">
-                            <li><a class="dropdown-item" href="Auctions">Auctions</a></li>
+                            @if($user)
+                                <li><a class="dropdown-item" href="Auctions">Auctions</a></li>
+                            @else 
+                                <li><a class="dropdown-item" href="LoginView">Auctions</a></li>
+                            @endif
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
@@ -58,7 +65,11 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn-outline-primary login-btn" style="font-family: 'Manrope'; color:rgba(29, 78, 216, 1);" id="login">Login</a>
+                        @if($user)
+                            <a class="nav-link btn-outline-primary login-btn" href="Auctions" style="font-family: 'Manrope'; color:rgba(29, 78, 216, 1);" id="login">Login</a>
+                        @else
+                            <a class="nav-link btn-outline-primary login-btn" style="font-family: 'Manrope'; color:rgba(29, 78, 216, 1);" id="login">Login</a>
+                        @endif
                     </li>
                     <li class="nav-item">
                         <a class="btn-primary get-started-btn font" style="font-family: 'Manrope';" id="signup">Get Started</a>
@@ -96,7 +107,11 @@
                         Ends in: <span id="countdown-{{ $prod->id }}"></span>
                     </div>
                 </div>
-                <button class="submit" id="submit-{{ $prod->id }}">Bid Now ></button>
+                @if($user)
+                    <button class="submit" id="submit-{{ $prod->id }}" onclick="window.location.href='Auctions'">Bid Now ></button>
+                @else
+                    <button class="submit" id="submit-{{ $prod->id }}" onclick="window.location.href='LoginView'">Bid Now ></button>
+                @endif
             </div>
         @endforeach
     </div>

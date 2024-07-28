@@ -50,6 +50,7 @@ class ProductController extends Controller
                 Schema::create($bidTableName, function ($table) {
                     $table->increments('id');
                     $table->decimal('amount', 10, 2); 
+                    $table->string('name');
                     $table->string('email');
                     $table->timestamps(); 
                 });
@@ -62,6 +63,8 @@ class ProductController extends Controller
                     $table->integer('stars');
                     $table->date('date');
                     $table->text('review');
+                    $table->string('name');
+                    $table->string('profile_pic');
                     $table->timestamps(); 
                 });
             }
@@ -97,10 +100,59 @@ class ProductController extends Controller
         DB::table($bidTableName)->insert([
             'amount' => $maxBid, 
             'email' => $user->email,
+            'name' => $user->firstname,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         return redirect()->route('Auctions')->with('success', 'Your bid was successfully placed!');
     }
-
+    public function ProductDetails($id)
+    {
+        $product = "select * from products where id =". $id.";";
+        $products= DB::select($product);
+        $prod_name=$products[0]->prod_name;
+        $bidTableName = 'bid_' . $this->sanitizeTableName($prod_name) . '_' . $id;
+        $reviewTableName = 'review_' . $this->sanitizeTableName($prod_name) . '_' . $id;
+        $bidTable= "select * from ". $bidTableName. " order by amount desc ;"; 
+        $bidTables= DB::select($bidTable);
+        $reviewTable = "select * from ". $reviewTableName. " order by created_at desc;"; 
+        $reviewTables = DB::select($reviewTable);
+        return view('Logins.Product_View',['product'=>$products,'reviewTable'=>$reviewTables,'bidTable'=>$bidTables]);
+    }
+    public function AddReview(Request $request)
+    {
+        $user=Session::get('user');
+        if(!$user)
+            return redirect('LoginView');
+        $request->validate([
+            'review' => 'required|string',
+            'rating' => 'required',
+        ]);
+        $product = "select * from products where id =".$request->productId.";";
+        $products= DB::select($product);
+        $prod_name=$products[0]->prod_name;
+        $username=$user->firstname .' '. $user->lastname;
+        $reviewTableName = 'review_' . $this->sanitizeTableName($prod_name) . '_' . $request->productId;
+        DB::table($reviewTableName)->insert([
+            'email' => $user->email,
+            'stars' => $request->input('rating'),
+            'date' => now()->toDateString(),
+            'review' => $request->input('review'),
+            'name' => $username,
+            'profile_pic' => $user->profile_pic,
+            'created_at' => now(), 
+            'updated_at' => now(),
+        ]);
+        return redirect()->back()->with(['success' => 'Review Added Successfully']);
+    }
+    public function DeleteProduct($id)
+    {
+        $product = DB::table('products')->where('id', $id)->first();
+        if ($product) {
+            DB::table('products')->where('id', $id)->delete();
+            return redirect()->back()->with('success', 'Product deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+    }
 }
