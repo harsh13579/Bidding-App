@@ -148,8 +148,12 @@ class ProductController extends Controller
     public function DeleteProduct($id)
     {
         $product = DB::table('products')->where('id', $id)->first();
+        $bidTableName = 'bid_' . $this->sanitizeTableName($product->prod_name) . '_' . $id;
+        $reviewTableName = 'review_' . $this->sanitizeTableName($product->prod_name) . '_' . $id;
         if ($product) {
             DB::table('products')->where('id', $id)->delete();
+            Schema::dropIfExists($bidTableName);
+            Schema::dropIfExists($reviewTableName);
             return redirect()->back()->with('success', 'Product deleted successfully.');
         } else {
             return redirect()->back()->with('error', 'Product not found.');
