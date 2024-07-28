@@ -25,6 +25,11 @@
         <div class="form-container">
             <h3 class="heading font">Login</h3>
             <p class="headerparagraph">Welcome back. Enter your credentials to access your account</p>
+            @if (Session::get('success'))
+                <span class="text-safe" role="alert">
+                    {{ Session::get('success') }}
+                </span>
+            @endif
             <form method="post" action="/login" id="login">
                 @csrf
                 <div class="form-group" >
@@ -36,7 +41,7 @@
                 </div>
                 <div class="form-group password-container">
                     <label for="password" class="labels font">Password
-                        <a href="/forgot-password" class="forgot-password">Forgot Password</a>
+                        <a href="reset_pass_user" class="forgot-password">Forgot Password</a>
                     </label>
                     <input class="inputs" type="password" id="password" name="password" placeholder="Enter Password" required>
                     <span class="password-toggle-icon"><i class="fas fa-eye"style="padding-top: 30px"></i></span>

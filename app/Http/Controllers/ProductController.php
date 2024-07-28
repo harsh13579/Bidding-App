@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Str;
+use Hash;
 use App\Models\product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,9 +11,69 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OutbidNotification;
 
 class ProductController extends Controller
 {
+    public function showForgetPasswordForm()
+    {
+        return view('Logins.forgetPassword');
+    }
+    public function submitForgetPasswordForm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+        ]);
+
+        $token = Str::random(64);
+        if(DB::table('password_reset_users')->where('email',$request->email)->exists())
+        {
+            return back()->with('message', 'We have already e-mailed your password reset link! Please check your email');
+        }
+        DB::table('password_reset_users')->insert([
+            'email' => $request->email, 
+            'token' => $token, 
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::send('emails.UserforgetPassword', ['token' => $token], function($message) use($request){
+            $message->to($request->email);
+            $message->subject('Reset Password');
+        });
+
+        return back()->with('message', 'We have e-mailed your password reset link!');
+    }
+    public function showResetPasswordForm($token)
+    { 
+        return view('Logins.forgetPasswordLink', ['token' => $token]);
+    }
+    public function submitResetPasswordForm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        $updatePassword = DB::table('password_reset_users')
+                            ->where([
+                            'email' => $request->email, 
+                            'token' => $request->token
+                            ])
+                            ->first();
+
+        if(!$updatePassword){
+            return back()->withInput()->with('error', 'Invalid token!');
+        }
+
+        $user = DB::table('users')->where('email', $request->email)
+                    ->update(['password' => Hash::make($request->password)]);
+
+        DB::table('password_reset_users')->where(['email'=> $request->email])->delete();
+
+        return redirect()->route('LoginView')->with('success',"Password Changed Successfully");
+    }
     private function sanitizeTableName($name)
     {
         return preg_replace('/[^a-zA-Z0-9_]/', '_', strtolower($name));
@@ -96,7 +157,7 @@ class ProductController extends Controller
         DB::table('products')->where('id', $request->productId)->update(['curbid' => $maxBid]);
 
         $bidTableName = 'bid_' . $this->sanitizeTableName($product->prod_name) . '_' . $request->productId;
-            
+        $latestBidder = DB::table($bidTableName)->orderBy('created_at', 'desc')->limit(1)->first();
         DB::table($bidTableName)->insert([
             'amount' => $maxBid, 
             'email' => $user->email,
@@ -104,6 +165,20 @@ class ProductController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        if ($latestBidder) {
+            $latestBidderDetails = DB::table('users')->where('email', $latestBidder->email)->select('firstname','lastname', 'email_subs')->first();
+
+            if ($latestBidderDetails && $latestBidderDetails->email_subs) {
+                $details = [
+                    'name' => $latestBidderDetails->firstname.' '.$latestBidderDetails->lastname,
+                    'product_name' => $product->prod_name,
+                    'new_bidder' => $user->firstname,
+                    'new_bid' => $maxBid
+                ];
+
+                Mail::to($latestBidder->email)->send(new OutbidNotification($details));
+            }
+        }
         return redirect()->route('Auctions')->with('success', 'Your bid was successfully placed!');
     }
     public function ProductDetails($id)
