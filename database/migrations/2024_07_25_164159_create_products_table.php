@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('prod_name');
             $table->string('user');
             $table->string('photo')->nullable();
-            $table->string('description');
+            $table->text('description');
             $table->integer('minbid');
             $table->integer('curbid');
             $table->dateTime('enddate');
