@@ -29,14 +29,20 @@ class ProductController extends Controller
         $token = Str::random(64);
         if(DB::table('password_reset_users')->where('email',$request->email)->exists())
         {
-            return back()->with('message', 'We have already e-mailed your password reset link! Please check your email');
+            DB::table('password_reset_users')
+                ->where('email', $request->email)
+                ->update([
+                    'token' => $token,
+                    'created_at' => Carbon::now(),
+            ]);
         }
-        DB::table('password_reset_users')->insert([
-            'email' => $request->email, 
-            'token' => $token, 
-            'created_at' => Carbon::now()
-        ]);
-
+        else{
+            DB::table('password_reset_users')->insert([
+                'email' => $request->email, 
+                'token' => $token, 
+                'created_at' => Carbon::now()
+            ]);    
+        }
         Mail::send('emails.UserforgetPassword', ['token' => $token], function($message) use($request){
             $message->to($request->email);
             $message->subject('Reset Password');
@@ -52,8 +58,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'email' => 'required|email|exists:users',
-            'password' => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required'
+            'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'password_confirmation' => 'required|same:password'
         ]);
 
         $updatePassword = DB::table('password_reset_users')
